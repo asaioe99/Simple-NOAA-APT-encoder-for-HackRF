@@ -60,7 +60,7 @@ int main(int argc, char **argv){
 	unsigned long  file_size;                               // output file size
 	unsigned long  Fs_out;                                  // sampling frequency of output wav file
 	unsigned long  BytePerSec;                              // Byte number per 1 second
-	unsigned long  data_len;                                // o—Í”gŒ`‚ÌƒTƒ“ƒvƒ‹”
+	unsigned long  data_len;                                // å‡ºåŠ›æ³¢å½¢ã®ã‚µãƒ³ãƒ—ãƒ«æ•°
 	unsigned long  fmt_chnk    =16;
 	unsigned short BitPerSample=8;
 	unsigned short fmt_ID      =1;                          // fmt ID.
@@ -101,40 +101,40 @@ int main(int argc, char **argv){
 		exit(-2);
 	}
 	
-	//M†ˆ——p•Ï”
-	int           t             = 0;                                  // ‚Ì•Ï”
+	//ä¿¡å·å‡¦ç†ç”¨å¤‰æ•°
+	int           t             = 0;                                  // æ™‚åˆ»ã®å¤‰æ•°
 	int           n             = 0;                                  //
 	int           k             = 0;                                  //
 	int           m             = 0;
 	int           i             = 0;
-	long int      t_out         = 0;                                  // I—¹Œv‘ª—p‚Ì•Ï”
-	int           add_len       = 0;                                  // o—ÍM†‚ğ‰„’·‚·‚éƒTƒ“ƒvƒ‹”
-	unsigned char input, output;                                      // “Ç‚İ•Ï”‚Æ‘o‚µ•Ï”
-	double        s[MEM_SIZE+1] = {0};                                // “ü—Íƒf[ƒ^Ši”[—p•Ï”
+	long int      t_out         = 0;                                  // çµ‚äº†æ™‚åˆ»è¨ˆæ¸¬ç”¨ã®å¤‰æ•°
+	int           add_len       = 0;                                  // å‡ºåŠ›ä¿¡å·ã‚’å»¶é•·ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«æ•°
+	unsigned char input, output;                                      // èª­è¾¼ã¿å¤‰æ•°ã¨æ›¸å‡ºã—å¤‰æ•°
+	double        s[MEM_SIZE+1] = {0};                                // å…¥åŠ›ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨å¤‰æ•°
 	int           Fs            = 44100;                              // sampling frequency of output wav file
-	int           ch            = 1;                                  // “ü—Íƒ`ƒƒƒlƒ‹”
+	int           ch            = 1;                                  // å…¥åŠ›ãƒãƒ£ãƒãƒ«æ•°
 	int           len           = 0.5*Fs*bmp_hgt;
 	double        f             = 2400.0;
 
-	//o—Íwaveƒtƒ@ƒCƒ‹‚Ì€”õ
-	Fs_out        = Fs;                                               // o—ÍƒTƒ“ƒvƒŠƒ“ƒOü”g”‚ğİ’è
-	channel       = ch;                                               // o—Íƒ`ƒƒƒlƒ‹”‚ğİ’è
-	data_len      = channel*(len+add_len)*BitPerSample/8;             // o—Íƒf[ƒ^‚Ì’·‚³ = ‘SByte” (1ƒTƒ“ƒvƒ‹‚Å2Byte)
-	file_size     = 36+data_len;                                      // ‘S‘Ìƒtƒ@ƒCƒ‹ƒTƒCƒY
-	BytePerSec    = Fs_out*channel*BitPerSample/8;                    // 1•b“–‚½‚è‚ÌƒoƒCƒg”
-	BytePerSample = channel*BitPerSample/8;                           // 1ƒTƒ“ƒvƒ‹“–‚½‚è‚ÌƒoƒCƒg”
+	//å‡ºåŠ›waveãƒ•ã‚¡ã‚¤ãƒ«ã®æº–å‚™
+	Fs_out        = Fs;                                               // å‡ºåŠ›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°ã‚’è¨­å®š
+	channel       = ch;                                               // å‡ºåŠ›ãƒãƒ£ãƒãƒ«æ•°ã‚’è¨­å®š
+	data_len      = channel*(len+add_len)*BitPerSample/8;             // å‡ºåŠ›ãƒ‡ãƒ¼ã‚¿ã®é•·ã• = å…¨Byteæ•° (1ã‚µãƒ³ãƒ—ãƒ«ã§2Byte)
+	file_size     = 36+data_len;                                      // å…¨ä½“ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚º
+	BytePerSec    = Fs_out*channel*BitPerSample/8;                    // 1ç§’å½“ãŸã‚Šã®ãƒã‚¤ãƒˆæ•°
+	BytePerSample = channel*BitPerSample/8;                           // 1ã‚µãƒ³ãƒ—ãƒ«å½“ãŸã‚Šã®ãƒã‚¤ãƒˆæ•°
 
-	//o—Íƒwƒbƒ_î•ñ‘‚«‚İ
+	//å‡ºåŠ›ãƒ˜ãƒƒãƒ€æƒ…å ±æ›¸ãè¾¼ã¿
 	fprintf(f2, "RIFF");                                              // "RIFF"
-	fwrite(&file_size,    sizeof(unsigned long ), 1, f2);             // ƒtƒ@ƒCƒ‹ƒTƒCƒY
+	fwrite(&file_size,    sizeof(unsigned long ), 1, f2);             // ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚º
 	fprintf(f2, "WAVEfmt ");                                          // "WAVEfmt"
-	fwrite(&fmt_chnk,     sizeof(unsigned long ), 1, f2);             // fmt_chnk=16 (ƒrƒbƒg”)
+	fwrite(&fmt_chnk,     sizeof(unsigned long ), 1, f2);             // fmt_chnk=16 (ãƒ“ãƒƒãƒˆæ•°)
 	fwrite(&fmt_ID,       sizeof(unsigned short), 1, f2);             // fmt ID=1 (PCM)
-	fwrite(&channel,      sizeof(unsigned short), 1, f2);             // o—Íƒ`ƒƒƒlƒ‹”
-	fwrite(&Fs_out,       sizeof(unsigned long ), 1, f2);             // o—Í‚ÌƒTƒ“ƒvƒŠƒ“ƒOü”g”
-	fwrite(&BytePerSec,   sizeof(unsigned long ), 1, f2);             // 1•b“–‚½‚è‚ÌƒoƒCƒg”
-	fwrite(&BytePerSample,sizeof(unsigned short ),1, f2);             // 1ƒTƒ“ƒvƒ‹“–‚½‚è‚ÌƒoƒCƒg”
-	fwrite(&BitPerSample, sizeof(unsigned short ),1, f2);             // 1ƒTƒ“ƒvƒ‹‚Ìƒrƒbƒg”(8ƒrƒbƒg)
+	fwrite(&channel,      sizeof(unsigned short), 1, f2);             // å‡ºåŠ›ãƒãƒ£ãƒãƒ«æ•°
+	fwrite(&Fs_out,       sizeof(unsigned long ), 1, f2);             // å‡ºåŠ›ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°
+	fwrite(&BytePerSec,   sizeof(unsigned long ), 1, f2);             // 1ç§’å½“ãŸã‚Šã®ãƒã‚¤ãƒˆæ•°
+	fwrite(&BytePerSample,sizeof(unsigned short ),1, f2);             // 1ã‚µãƒ³ãƒ—ãƒ«å½“ãŸã‚Šã®ãƒã‚¤ãƒˆæ•°
+	fwrite(&BitPerSample, sizeof(unsigned short ),1, f2);             // 1ã‚µãƒ³ãƒ—ãƒ«ã®ãƒ“ãƒƒãƒˆæ•°(8ãƒ“ãƒƒãƒˆ)
 	fprintf(f2, "data");                                              // "data"
 	fwrite(&data_len,     sizeof(unsigned long ), 1, f2);             // length of output wav data
 
@@ -187,14 +187,14 @@ int main(int argc, char **argv){
 		//Signal Processing
 		k = 10;                                                                 // adjust the pixcels per 1 line
 		if(n%2==1 || n%10==2 || n%1040==4) {                                    // 2080*10   +  1040   +   208    +     2 = 22050
-			k = 11;                                                             //           =2080/2  =2080/10 =2080/1040
+			k = 11;                                                         //           =2080/2  =2080/10 =2080/1040
 		}
 		for (m=0;m<k;m++) {
 			s[t]=0.5+0.5*(sin(2.0*M_PI*f*t_out/Fs_out)*(line_pic[n]/255));      // Amplitude Modulation
-			output = s[t]*255;                                                  // o—Í‚ğ®”‰»
-			fwrite(&output, sizeof(unsigned char), 1, f2);                      // Œ‹‰Ê‚Ì‘‚«o‚µ
-			t=(t+1)%MEM_SIZE;                                                   //  t ‚ÌXV
-			t_out++;                                                            // ƒ‹[ƒvI—¹‚ÌŒv‘ª
+			output = s[t]*255;                                                  // å‡ºåŠ›ã‚’æ•´æ•°åŒ–
+			fwrite(&output, sizeof(unsigned char), 1, f2);                      // çµæœã®æ›¸ãå‡ºã—
+			t=(t+1)%MEM_SIZE;                                                   // æ™‚åˆ» t ã®æ›´æ–°
+			t_out++;                                                            // ãƒ«ãƒ¼ãƒ—çµ‚äº†æ™‚åˆ»ã®è¨ˆæ¸¬
 		}
 		n=(n+1)%2080;
 	}
@@ -216,10 +216,10 @@ int main(int argc, char **argv){
 	fread(&tmp4, sizeof(unsigned long), 1, f2);
 	
 	double    F15     = 137620000;                                    // NOAA15 freq
-	double    Fs_iq   = 44100*64.0;                                      // 44100*50
-	double    theta   = 0.0;                                            // •Ï’²—pˆÊ‘Š
-	double    mr      = 1.22; //0.25 115k 0.75 120k 0.83 130k 0.95 160k
-	double    x_FM;                                                   // FM•Ï’²M†
+	double    Fs_iq   = 44100*64.0;                                   // 44100*50
+	double    theta   = 0.0;                                          // å¤‰èª¿ç”¨ä½ç›¸
+	double    mr      = 1.22;                                         // 0.25 115k 0.75 120k 0.83 130k 0.95 160k
+	double    x_FM;                                                   // FMå¤‰èª¿ä¿¡å·
 	double    tmp[2];
 	unsigned  tmp_un;
 	signed char xI;
@@ -231,7 +231,7 @@ int main(int argc, char **argv){
 		fread(&tmp_un,sizeof(unsigned char), 1, f2);
 		
 		tmp[1] = tmp[0];
-		tmp[0] = (tmp_un-127.4)/128;
+		tmp[0] = (tmp_un-127.5)/128;
 		
 		for (m=0;m<16;m++){
 			for (k=0;k<4;k++){
