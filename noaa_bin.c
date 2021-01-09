@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////
 //                                                    //
 //  NOAA APT signal Encoder by Borland C++ 7.30       //
-//                                  Ver0.80           //
+//                                  Ver0.81           //
 //                                                    //
 //                        Presented by Yukio Ohata    //
 //                                         2021.01.09 //
@@ -215,7 +215,10 @@ int main(int argc, char **argv){
 	fseek(f2, 40L, SEEK_SET);
 	fread(&tmp4, sizeof(unsigned long), 1, f2);
 	
-	double    F15     = 137620000.0;                                    // NOAA15 freq
+	printf("wav file size is %lu Byte\n",tmp4);
+	tmp4=tmp4/44100;
+	printf("wav file time is %lu sec\n",tmp4);
+
 	double    Fs_iq   = 44100*64.0;                                     // 44100*50
 	double    theta   = 0.0;                                            // ïœí≤ópà ëä
 	double    mr      = 1.0;                                            // 0.25 115k 0.75 120k 0.83 130k 0.95 160k                                                  // FMïœí≤êMçÜ
