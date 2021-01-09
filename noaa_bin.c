@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////
 //                                                    //
 //  NOAA APT signal Encoder by Borland C++ 7.30       //
-//                                  Ver0.50           //
+//                                  Ver0.80           //
 //                                                    //
 //                        Presented by Yukio Ohata    //
-//                                         2021.01.01 //
+//                                         2021.01.09 //
 ////////////////////////////////////////////////////////
 
 #include <stdio.h>
@@ -218,16 +218,15 @@ int main(int argc, char **argv){
 	double    F15     = 137620000.0;                                    // NOAA15 freq
 	double    Fs_iq   = 44100*64.0;                                     // 44100*50
 	double    theta   = 0.0;                                            // ïœí≤ópà ëä
-	double    mr      = 25000.0/4800.0;                                 // 0.25 115k 0.75 120k 0.83 130k 0.95 160k
-	double    x_FM;                                                     // FMïœí≤êMçÜ
+	double    mr      = 1.0;                                            // 0.25 115k 0.75 120k 0.83 130k 0.95 160k                                                  // FMïœí≤êMçÜ
 	double    tmp[2];
 	unsigned  tmp_un;
-	signed char xI;
-	signed char xQ;
+	unsigned char xI;
+	unsigned char xQ;
 	
 	fseek(f2, 44L, SEEK_SET);
 	tmp[0] = 0.0; 
-	for (i=0;i<22050*2*10;i++){
+	for (i=0;i<22050*2*tmp4;i++){
 		fread(&tmp_un,sizeof(unsigned char), 1, f2);
 		
 		tmp[1] = tmp[0];
@@ -235,18 +234,17 @@ int main(int argc, char **argv){
 		
 		for (m=0;m<16;m++){
 			for (k=0;k<4;k++){
-				theta = theta + (tmp[1]*(m+1.0)+tmp[0]*(15.0-m))/16.0;
+				theta = theta + (2.0*M_PI*50.0e3/Fs_iq)*(tmp[1]*(m+1.0)+tmp[0]*(15.0-m))/16.0;
 				if( theta > M_PI ){
-					theta = theta - 2.0*M_PI;
+					theta = theta - (double)(2.0*M_PI);
 				}
 				if( theta <-M_PI ){
-					theta = theta + 2.0*M_PI;
+					theta = theta + (double)(2.0*M_PI);
 				}
-				x_FM = cos(2*M_PI*F15*t/Fs_iq + mr*theta);
-				xI = (signed char)((x_FM *   cos(2.0*M_PI*F15*t/Fs_iq + mr*theta)) * 127.0);
-				xQ = (signed char)((x_FM * (-sin(2.0*M_PI*F15*t/Fs_iq + mr*theta)))* 127.0);
-				fwrite(&xI, sizeof(signed char), 1, f3);
-				fwrite(&xQ, sizeof(signed char), 1, f3);
+				xI = (unsigned char)((sin(mr*theta)) * 127.0);
+				xQ = (unsigned char)((cos(mr*theta)) * 127.0);
+				fwrite(&xI, sizeof(unsigned char), 1, f3);
+				fwrite(&xQ, sizeof(unsigned char), 1, f3);
 				t=(t+1)%MEM_SIZE_iq; 
 			}
 		}
