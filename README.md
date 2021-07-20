@@ -15,7 +15,7 @@ NOAA19->137100000
 
 #this is a prototype.
 
-caution! this need to be compiled under 32bit environment.
+It need to be compiled under 32bit environment.
 if you get compile in 64 bit, change all 
 
   unsigned long --> unsinged int
