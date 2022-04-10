@@ -4,18 +4,21 @@ this is a NOAA apt signal generator for HackRF and makes wav file(44100Hz 8bit) 
 
 usege
 
+```
 >noaa_bin input.bmp output.wav output.bin
+```
 
-
+```
 >hackrf_transfer -t test.bin -f 137100000 -s 2822400 -a 1 -x 47 -R
+```
 
 NOAA15->137620000
 NOAA18->137912000
 NOAA19->137100000
 
-#this is a prototype.
+this is a prototype.
 
-It need to be compiled under 32bit environment.
+It need to be compiled under 32bit environment and is for only 909 pixel width bmp image.
 if you get compile in 64 bit, change all 
 
   unsigned long --> unsinged int
