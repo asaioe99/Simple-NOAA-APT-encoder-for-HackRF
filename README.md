@@ -2,7 +2,7 @@
 
 this is a NOAA apt signal generator for HackRF and makes wav file(44100Hz 8bit) and I/Q file(bin for HackRF).
 
-usege
+usage
 
 ```
 >noaa_bin input.bmp output.wav output.bin
